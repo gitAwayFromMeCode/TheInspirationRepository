@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic import ListView, DetailView
+#from django.http import HttpResponse
 from .models import Quote
 # Create your views here.
 
+#hard coded quotes for when an actual db is not begin used
 quotes = [
     {
         'author': 'Carl Jung',
@@ -28,3 +30,13 @@ def home(request):
 
 def about(request):
     return render(request, 'quote/about.html')
+
+class QuoteListView(ListView):
+    model = Quote
+    template_name = 'quote/home.html' # <app>/<model>_<viewtype>.html
+    context_object_name = 'quotes'
+    #ordering = ['-date_posted']
+
+class QuoteDetailView(DetailView):
+    model = Quote
+    

@@ -1,0 +1,19 @@
+{% extends "quote/base.html" %}
+{% block content %}
+    <article class="media content-section">
+      <!-- The line below will display the users profile picture beside the quote they posted, don't think I want this though ... -->
+      <!-- <img class="rounded-circle article-img" src="{{ quote.author.profile.image.url }}"> -->
+      <!-- quote is now being replaced with object ... -->
+      <!-- <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}"> -->
+        <div class="media-body">
+          
+          <!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
+          <p class="article-content"><b><i>"{{ object.content }}"</i></b></p>
+          
+        </div>
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ object.author }}</a>
+            
+          </div>
+    </article>
+{% endblock content %}
