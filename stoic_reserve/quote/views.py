@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 #from django.http import HttpResponse
 from .models import Quote
 # Create your views here.
@@ -39,4 +39,12 @@ class QuoteListView(ListView):
 
 class QuoteDetailView(DetailView):
     model = Quote
+
+class QuoteCreateView(CreateView):
+    model = Quote
+    fields = ['author', 'content']
+
+    def form_valid(self, form):
+        form.instance.poster = self.request.user
+        return super().form_valid(form)
     
