@@ -1,0 +1,18 @@
+{% extends "quote/base.html" %}
+{% block content %}
+<h1>Home of the Quotes</h1>
+    {% for quote in quotes %}
+    <article class="media content-section">
+        <div class="media-body">
+          
+          <!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
+          <p class="article-content"><b><i>"{{ quote.content }}"</i></b></p>
+          
+        </div>
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{ quote.author }}</a>
+            
+          </div>
+    </article>
+    {% endfor %}
+{% endblock content %}
