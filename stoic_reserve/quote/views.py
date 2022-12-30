@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 #from django.http import HttpResponse
 from .models import Quote
 # Create your views here.
@@ -40,11 +41,27 @@ class QuoteListView(ListView):
 class QuoteDetailView(DetailView):
     model = Quote
 
-class QuoteCreateView(CreateView):
+class QuoteCreateView(LoginRequiredMixin, CreateView):
     model = Quote
     fields = ['author', 'content']
 
     def form_valid(self, form):
         form.instance.poster = self.request.user
         return super().form_valid(form)
+
+
+class QuoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Quote
+    fields = ['author', 'content']
+
+    def form_valid(self, form):
+        form.instance.poster = self.request.user
+        return super().form_valid(form)
+    
+    # a function to only allow a user to update quotes they posted themselves
+    def test_func(self):
+        quote = self.get_object()
+        if self.request.user == quote.poster:
+            return True 
+        return False
     
