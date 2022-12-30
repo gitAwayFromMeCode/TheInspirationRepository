@@ -9,6 +9,10 @@
           
           <!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
           <p class="article-content"><b><i>"{{ object.content }}"</i></b></p>
+          {% if object.poster == user %}
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'quote-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'quote-delete' object.id %}">Delete</a>
+          {% endif %}
           
         </div>
         <div class="article-metadata">

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 #from django.http import HttpResponse
 from .models import Quote
 # Create your views here.
@@ -59,6 +59,17 @@ class QuoteUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
     
     # a function to only allow a user to update quotes they posted themselves
+    def test_func(self):
+        quote = self.get_object()
+        if self.request.user == quote.poster:
+            return True 
+        return False
+
+class QuoteDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Quote
+    success_url = '/'
+
+    # the same function: only allow the creator to delete the quote
     def test_func(self):
         quote = self.get_object()
         if self.request.user == quote.poster:
