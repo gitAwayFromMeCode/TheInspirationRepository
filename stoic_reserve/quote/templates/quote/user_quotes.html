@@ -1,6 +1,6 @@
 {% extends "quote/base.html" %}
 {% block content %}
-<h1>Home of the Quotes</h1>
+<h1 class="mb-3">Submissions by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for quote in quotes %}
     <article class="media content-section">
       <!-- The line below will display the users profile picture beside the quote they posted, don't think I want this though ... -->
@@ -12,7 +12,7 @@
           
         </div>
         <div class="article-metadata">
-            <a class="mr-2" href="#">{{ quote.author }}</a>
+            <a class="mr-2" href="{% url 'user-quotes' quote.poster.username %}">{{ quote.author }}</a>
             
           </div>
     </article>

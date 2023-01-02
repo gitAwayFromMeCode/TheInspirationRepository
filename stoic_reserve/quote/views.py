@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.models import User
 #from django.http import HttpResponse
 from .models import Quote
 # Create your views here.
@@ -37,6 +38,19 @@ class QuoteListView(ListView):
     template_name = 'quote/home.html' # <app>/<model>_<viewtype>.html
     context_object_name = 'quotes'
     #ordering = ['-date_posted']
+    paginate_by = 6
+
+class UserQuoteListView(ListView):
+    model = Quote
+    template_name = 'quote/user_quotes.html' # <app>/<model>_<viewtype>.html
+    context_object_name = 'quotes'
+    #ordering = ['-date_posted']
+    paginate_by = 6
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username')) #getting the username from the url
+        return Quote.objects.filter(poster=user) #.order_by('-date_posted')
+
 
 class QuoteDetailView(DetailView):
     model = Quote
